@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if($imagem_atual == $imagem_base64){
         $sql = "UPDATE produtos SET pro_nome = '$nome', pro_descricao = '$descricao', pro_quantidade = $quantidade,
         pro_custo = $custo, pro_preco = $preco, pro_ativo = '$ativo' WHERE pro_id = '$id'";
-
+        
         mysqli_query($link, $sql);
 
         echo"<script>window.alert('PRODUTO ALTERADO!');</script>";

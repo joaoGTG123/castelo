@@ -33,22 +33,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/estiloadm.css">
-    <title>LOGIN CLIENTE</title>
+    <title>LOGIN</title>
 </head>
 <body>
     <form action="logincliente.php" method="post">
         <h1>LOGIN DE CLIENTE</h1>
-        <input type="text" name="cpf" id="cpf" placeholder="CPF">
+        <!-- pode colocar credencial para colocar mais de 1 forma de login -->
+        <input type="text" name="cpf" id="cpf" placeholder="CPF"> <!-- aqui escolhemos trabalhar com cpf -->
         <br>
-        <input type="password" id="senha" name="senha" placeholder="senha">
+        <input type="password" name="senha" id="senha" placeholder="senha">
         <br>
-        <input type="submit" name="login" value="LOGIN"> 
+        <input type="submit" name="login" value="LOGIN">
     </form>
-    
 </body>
 </html>

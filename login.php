@@ -10,7 +10,8 @@
 
         
         #QUERY DE BANCO DE DADOS
-        $sql = "SELECT COUNT(usu_id) FROM usuarios WHERE usu_nome = '$nome' AND usu_senha = '$senha' AND usu_ativo = 's'";
+        $sql = "SELECT COUNT(usu_id) FROM usuarios WHERE usu_nome = '$nome'
+        AND usu_senha = '$senha' AND usu_ativo = 's'"; // AND usu_ativo = s --> verifica se o usuario esta ativo ou não
         $retorno = mysqli_query($link, $sql);
 
         #TODO RETORNO DO BANCO É RETORNADO EM ARRAY EM PHP
@@ -23,7 +24,8 @@
         #SE $CONT == 0 ELE NÃO EXISTE E USUARIO NÃO ESTÁ CADASTRADO
         if($cont == 1){
             $sql = "SELECT * FROM usuarios WHERE usu_nome = '$nome' 
-            AND usu_senha = '$senha' AND usu_ativo = 's'";
+            AND usu_senha = '$senha' AND usu_ativo = 's'"; // INFORMA QUE O USUARIO SO VAI LOGAR SE TIVER 'S' DE ATIVO 
+
             $_SESSION['nomeusuario'] = $nome;
             
             #DIRECIONA USUARIO PARA O ADM
@@ -35,7 +37,7 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

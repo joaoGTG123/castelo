@@ -1,59 +1,67 @@
+<!-- ESTRUTURA EM PHP QUE SERA UTILIZANDO EM CADASTRAPRODUTO.HTML -->
 <?php
+
 include("conectadb.php");
 
 session_start();
 $nomeusuario = $_SESSION['nomeusuario'];
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $quantidade = $_POST['quantidade'];
     $custo = $_POST['custo'];
     $preco = $_POST['preco'];
 
-    // THE WITCH IS COMING....
+    // THE WITCH IS COMING
 
-    if(isset($_FILES['imagem']) && $_FILES['imagem']['error']=== UPLOAD_ERR_OK){
+    // TRANFORMA A IMAGEM EM CRIPTOGRAFIA, TORNANDO ELA MAIS LEVE
+    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) { // (===) IDENTIFICA SE ALGO É IDENTICO
         $imagem_temp = $_FILES['imagem']['tmp_name'];
         $imagem = file_get_contents($imagem_temp);
         $imagem_base64 = base64_encode($imagem);
-    };
+    }
 
-    // FIM BRUXARIA
+
+    // FIM 
 
     // QUERY DO BANCO
+
     $sql = "SELECT COUNT(pro_id) FROM produtos WHERE pro_nome = '$nome'";
     $retorno = mysqli_query($link, $sql);
-    while($tbl = mysqli_fetch_array($retorno)){
+    while ($tbl = mysqli_fetch_array($retorno)) {
         $cont = $tbl[0];
 
         // VERIFICA SE PRODUTO EXISTE, SE SIM, INFORMA, SE NÃO, INSERE
-        if($cont == 1){
-            echo"<script>window.alert('PRODUTO JÁ CADASTRADO');</script>";
-        }
-        else{
-            $sql = "INSERT INTO produtos (pro_nome, pro_descricao, pro_quantidade, pro_custo, pro_preco, pro_ativo, imagem1)
-            VALUES ('$nome', '$descricao', '$quantidade', '$custo', '$preco', 's', '$imagem_base64')";
+        if ($cont == 1) {
+            echo "<script>window.alert('PRODUTO JÁ CADASTRADO');</script>";
+        } else {
+            $sql = "INSERT INTO produtos (pro_nome, pro_descricao, pro_quantidade, pro_custo, pro_preco, pro_ativo, imagem1) VALUE ('$nome', '$descricao', '$quantidade', '$custo', '$preco', 's', '$imagem_base64')";
             mysqli_query($link, $sql);
-            echo"<script>window.alert('PRODUTO CADASTRADO COM SUCESSO!');</script>";
-            echo"<script>window.location.href='listaproduto.php';</script>";
+            echo "<script>window.alert('PRODUTO CADASTRADO COM SUCESSO!');</script>";
+            echo "<script>window.location.href='listaproduto.php';</script>";
         }
     }
 }
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estiloadm.css">
-    <title>CADASTRA PRODUTOS</title>
+    <link rel="stylesheet" href="./css/estiloadm.css">
+    <title>CADASTRA PRODUTO</title>
 </head>
+
 <body>
-    <!-- O MENU GERAL DA APLICAÇÃO -->
+
     <div>
+        <!-- MENU GLOBAL -->
         <ul class="menu">
             <li><a href="cadastrausuario.php">CADASTRA USUARIO</a></li>
+            <li><a href="cadastracliente.php">CADASTRA CLIENTE</a></li>
             <li><a href="listausuario.php">LISTA USUARIO</a></li>
             <li><a href="cadastraproduto.php">CADASTRA PRODUTO</a></li>
             <li><a href="listaproduto.php">LISTA PRODUTO</a></li>
@@ -63,10 +71,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             #ABERTO O PHP PARA VALIDAR SE A SESSÃO DO USUARIO ESTÁ ABERTA
             #SE SESSÃO ABERTA, FECHA O PHP PARA USAR ELEMENTOS HTML
             if ($nomeusuario != null) {
-            ?>
+                ?>
                 <!-- USO DO ELEMENTO HTML COM PHP INTERNO -->
-                <li class="profile">OLÁ <?= strtoupper($nomeusuario) ?></li>
-            <?php
+                <li class="profile">OLÁ
+                    <?= strtoupper($nomeusuario) ?>
+                </li>
+                <?php
                 #ABERTURA DE OUTRO PHP PARA CASO FALSE
             } else {
                 echo "<script>window.alert('USUARIO NÃO AUTENTICADO');
@@ -78,34 +88,36 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     </div>
 
     <!-- ESTRUTURA DA PÁGINA -->
-        <form action="cadastraproduto.php" method="post" enctype="multipart/form-data">
-            <label>NOME DO PRODUTO</label>
-            <input type="text" name="nome" id="nome">
-            <br>
 
-            <label>DESCRIÇÃO</label>
-            <textarea name="descricao" id="descricao" rows="4" resize="none"></textarea>
-            <br>
+    <form action="cadastraproduto.php" method="post" enctype="multipart/form-data">
+        <label>NOME DO PRODUTO</label>
+        <input type="text" name="nome" id="nome">
+        <br>
 
-            <label>QUANTIDADE</label>
-            <input type="number" name="quantidade" id="quantidade">
-            <br>
+        <label>DESCRIÇÃO</label>
+        <textarea name="descricao" id="descricao" rows="4" resize="none"></textarea> <!-- CRIA UMA AREA DE TEXTO -->
+        <br>
 
-            <label>CUSTO</label>
-            <input type="decimal" name="custo" id="custo">
-            <br>
+        <label>QUANTIDADE</label>
+        <input type="number" name="quantidade" id="quantidade">
+        <br>
 
-            <label>PREÇO</label>
-            <input type="decimal" name="preco" id="preco">
+        <label>CUSTO</label>
+        <input type="decimal" name="custo" id="custo">
+        <br>
 
-            <label>IMAGEM</label>
-            <input type="file" name="imagem" id="imagem">
-            <br>
+        <label>PREÇO</label>
+        <input type="decimal" name="preco" id="preco">
+        <br>
 
-            <input type="submit" name="cadastrar" id="cadastrar">
+        <label>IMAGEM</label>
+        <input type="file" name="imagem" id="imagem">
+        <br>
 
-        </form>
+        <input type="submit" name="cadastrar" id="cadastrar">
 
-    
+    </form>
+
 </body>
+
 </html>
